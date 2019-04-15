@@ -17,4 +17,4 @@ const IdeaSchema = new Schema({
   }
 })
 
-mongoose.model('idea', IdeaSchema)
+mongoose.model('ideas', IdeaSchema)

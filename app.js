@@ -1,12 +1,17 @@
 const path = require('path')
 const express = require('express')
-const bodyParser = require('body-parser')
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
 
 const app = express()
 
-mongoose.connect('mongodb+srv://benbkk:b3NN@10120@cluster0-qsyd8.mongodb.net/vidjot?retryWrites=true', {
+
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+app.use(express.static(path.join(__dirname, 'public')))
+
+mongoose.Promise = global.Promise
+mongoose.connect('mongodb+srv://benbkk:b3NN@10120@cluster0-qsyd8.mongodb.net/vidjot', {
   useNewUrlParser: true
 })
   .then(() => console.log('MongoDB is connected'))
@@ -14,7 +19,7 @@ mongoose.connect('mongodb+srv://benbkk:b3NN@10120@cluster0-qsyd8.mongodb.net/vid
 
 // Load Idea Model
 require('./models/Idea')
-const Idea = mongoose.model('idea')
+const Idea = mongoose.model('ideas')
 
 // Handlebars Middleware
 app.engine('handlebars', exphbs({
@@ -22,8 +27,6 @@ app.engine('handlebars', exphbs({
 }))
 app.set('view engine', 'handlebars')
 
-app.use(bodyParser.json())
-app.use(express.static(path.join(__dirname, 'public')))
 
 // Index Route
 app.get('/', (req, res) => {
@@ -37,7 +40,13 @@ app.get('/about', (req, res) => {
 
 // Ideas Route
 app.get('/ideas', (req, res) => {
-  res.render('ideas')
+  Idea.find({})
+    .sort({date: 'desc'})
+    .then(ideas => {
+      res.render('ideas/index', {
+        ideas,
+      })
+    })
 })
 
 // Add Ideas
@@ -48,24 +57,35 @@ app.get('/ideas/add', (req, res) => {
 // Process Add Video Form
 app.post('/ideas', (req, res) => {
   let errors = []
-  if (!req.body.title) {
+
+  if (req.body.title === '') {
     errors.push({
-      text: 'Title is required'
+      text: 'Title is Required'
     })
   }
-  if (!req.body.details) {
+
+  if (req.body.details === '') {
     errors.push({
-      text: 'Details is required'
+      text: 'Details is Required'
     })
   }
+
   if (errors.length > 0) {
     res.render('ideas/add', {
-      errors,
+      errors: errors,
       title: req.body.title,
       details: req.body.details
     })
   } else {
-    res.send('Passed')
+    const newUser = {
+      title: req.body.title,
+      details: req.body.details,
+    }
+    new Idea(newUser)
+      .save()
+      .then(idea => {
+        res.redirect('/ideas')
+      })
   }
 })
 

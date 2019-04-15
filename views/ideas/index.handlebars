@@ -1,6 +1,15 @@
 <div class="page-wrapper">
   <div class="container">
-  <h2>Ideas</h2>
+    <h2>Videos</h2>
+    {{#each ideas}}
+      <div class="card card-body">
+        <h4>{{title}}</h4>
+        <p>{{details}}</p>
+      </div>
+    {{else}}
+      
+    {{/each}}
+  </div>
 </div>
-</div>
+
 
