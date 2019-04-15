@@ -1,3 +1,27 @@
-<div class="container">
-  <h2>Add New Idea</h2>
+
+  {{#each errors}}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>{{text}}</div>
+  {{else}}
+    ''
+  {{/each}}
+
+<div class="page-wrapper">
+  <div class="container">
+    <h2>Video Idea</h2>
+  <div class="card card-body">
+    <h3>Add your idea</h3>
+    <form action="/ideas" method="post">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" name="title" />
+    </div>
+    <div class="form-group">
+      <label for="title">Details</label>
+      <textarea class="form-control" name="details"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
 </div>
