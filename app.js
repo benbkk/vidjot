@@ -2,12 +2,14 @@ const path = require('path')
 const express = require('express')
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
+const methodOverride = require('method-override')
 
 const app = express()
 
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, 'public')))
 
 mongoose.Promise = global.Promise
@@ -49,12 +51,41 @@ app.get('/ideas', (req, res) => {
     })
 })
 
-// Add Ideas
+// Add Idea
 app.get('/ideas/add', (req, res) => {
   res.render('ideas/add')
 })
 
+// Edit Idea
+app.get('/ideas/edit/:id', (req, res) => {
+  Idea.findOne({
+    _id: req.params.id
+  })
+  .then(idea => {
+    res.render('ideas/edit', {
+      idea
+    })
+  })
+})
+
+// Process Edit Video Form
+
+app.put('/ideas/:id', (req, res) => {
+  Idea.findOne({
+    _id: req.params.id,
+  })
+  .then(idea => {
+    idea.title = req.body.title
+    idea.details = req.body.details
+    idea.save()
+      .then(idea => {
+        res.redirect('/ideas')
+      })
+  })
+})
+
 // Process Add Video Form
+
 app.post('/ideas', (req, res) => {
   let errors = []
 
