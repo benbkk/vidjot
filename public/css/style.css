@@ -1,0 +1,114 @@
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold
+}
+
+@media (min-width: 768px) {
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -3px;
+  }
+  h1 {
+    font-size: 56px;
+  }
+
+  h2 {
+    font-size: 56px;
+  }
+}
+
+#myCarousel {
+  margin-bottom: 4rem;
+}
+
+#myCarousel .carousel-inner > .carousel-item > .item-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 500px;
+}
+
+#myCarousel .carousel-item {
+  height: 500px;
+  width: 100%;
+}
+
+.carousel-item, .carousel-item.active {
+  -webkit-transition-timing-function: cubic-bezier(.45,.18,0,1);
+  transition-timing-function: cubic-bezier(.45,.18,0,1);
+}
+
+.bg-indigo {
+  background-color: #9c27b0;
+}
+
+.bg-pink {
+  background-color: #e83e8c;
+}
+
+.carousel-inner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-indicators {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 15;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-left: 0;
+  margin-right: 15%;
+  margin-left: 15%;
+  list-style: none;
+}
+
+
+.carousel-indicators li {
+    box-sizing: content-box;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: 30px;
+    height: 3px;
+    margin-right: 3px;
+    margin-left: 3px;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: #fff;
+    background-clip: padding-box;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    opacity: .5;
+    transition: opacity .6s ease;
+}
+
+@media (min-width: 768px) {
+  .carousel h1 {
+      letter-spacing: -3px;
+      font-size: 56px;
+      font-weight: bold;
+  }
+}
+
+button {
+  background-color: transparent;
+  border-radius: 5px;
+  border-color: transparent;
+}
+
+button:focus {
+  outline: none;
+}
+
+.navbar-dark button.navbar-toggler {
+  background-color: transparent;
+}
+
+.navbar-main .dropdown-menu {
+  left: initial;
+  right: 0;
+}
