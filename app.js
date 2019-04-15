@@ -3,14 +3,31 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
+const flash = require('connect-flash')
+const session = require('express-session')
 
 const app = express()
 
-
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(methodOverride('_method'))
-app.use(express.static(path.join(__dirname, 'public')))
+
+app.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
+}))
+
+app.use(flash())
+
+// Global Variables
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.error_msg = req.flash('error_msg')
+  res.locals.error = req.flash('error')
+  next()
+})
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb+srv://benbkk:b3NN@10120@cluster0-qsyd8.mongodb.net/vidjot', {
@@ -79,6 +96,7 @@ app.put('/ideas/:id', (req, res) => {
     idea.details = req.body.details
     idea.save()
       .then(idea => {
+        req.flash('success_msg', 'Idea updated.')
         res.redirect('/ideas')
       })
   })
@@ -115,9 +133,22 @@ app.post('/ideas', (req, res) => {
     new Idea(newUser)
       .save()
       .then(idea => {
+        req.flash('success_msg', 'Your new video idea is added!')
         res.redirect('/ideas')
       })
   }
+})
+
+// Delete Idea
+
+app.delete('/ideas/:id', (req, res) => {
+  Idea.remove({
+    _id: req.params.id
+  })
+  .then(() => {
+    req.flash('success_msg', 'Video idea was removed')
+    res.redirect('/ideas')
+  })
 })
 
 const port = 5000

@@ -28,6 +28,10 @@ textarea {
   }
 }
 
+.idea-video {
+  margin-bottom: 18px;
+}
+
 #myCarousel .carousel-inner > .carousel-item > .item-bg {
   position: absolute;
   top: 0;
