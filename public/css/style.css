@@ -129,3 +129,7 @@ button:focus {
 .page-wrapper {
   padding: 4rem 0;
 }
+
+.mb-0 {
+  margin-bottom: 0;
+}
