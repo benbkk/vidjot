@@ -91,7 +91,7 @@ router.post('/', (req, res) => {
 // Delete Idea
 
 router.delete('/:id', (req, res) => {
-  Idea.remove({
+  Idea.deleteOne({
     _id: req.params.id
   })
   .then(() => {

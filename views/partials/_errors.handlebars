@@ -1,5 +1,29 @@
-  {{#each errors}}
-  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>{{text}}</div>
-  {{else}}
-  {{/each}}
+{{#if error}}
+  <div
+    class="alert alert-danger alert-dismissible fade show" role="alert"
+  >
+    <button
+      type="button" class="close"
+      data-dismiss="alert" aria-label="close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <span>{{error}}</span>
+  </div>
+{{/if}}
+
+{{#each errors}}
+  <div
+    class="alert alert-danger alert-dismissible fade show" role="alert"
+  >
+    <button
+      type="button"
+      class="close"
+      data-dismiss="alert"
+      aria-label="close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>{{text}}
+  </div>
+{{else}}
+{{/each}}

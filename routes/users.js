@@ -7,19 +7,27 @@ const passport = require('passport')
 require('../models/User')
 const User = mongoose.model('users')
 
-// USER LOGIN
-
+// USER LOGIN Route
 router.get('/login', (req, res) => {
   res.render('users/login')
 })
 
+// User Login Process
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', {
+    successRedirect: '/ideas',
+    failureRedirect: '/users/login',
+    failureFlash: true
+  })(req, res, next)
+})
+
+// Route to Registration Page
 router.get('/register', (req, res) => {
   res.render('users/register')
 })
 
 // Register post
 router.post('/register', (req, res) => {
-  console.log(req.body)
   let errors = []
 
   if (!req.body.name || req.body.name === '') {

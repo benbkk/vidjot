@@ -4,6 +4,7 @@ const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const flash = require('connect-flash')
+const passport = require('passport')
 const session = require('express-session')
 
 const app = express()
@@ -11,6 +12,9 @@ const app = express()
 // Load Routes
 const ideas = require('./routes/ideas')
 const users = require('./routes/users')
+
+// Passport Config
+require('./config/passport')(passport)
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
@@ -22,6 +26,10 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))
+
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(flash())
 
